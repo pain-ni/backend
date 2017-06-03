@@ -1,0 +1,47 @@
+@startuml
+
+class User {
+  name: string,
+  date_of_birth: string,
+  duration: in {
+    DURATION_DAYS,
+    DURATION_WEEKS,
+    DURATION_MONTHS,
+    DURATION_YEARS
+  },
+  estimated_pain_score: float.2
+  primary_pain_type: primary_pain_type.name,
+  primary_pain_area: primary_pain_area.name,
+  primary_pain_times: [...] from {
+    TOD_MORNING,
+    TOD_EVENING,
+    TOD_NIGHT,
+    TOD_ALL_DAY
+  },
+  created_at: timestamp,
+}
+
+class Entry {
+  user_id,
+  category: in {
+    ENTRY_INTERVENTION,
+    ENTRY_PAIN
+  },
+  type: {
+    name: string
+    parent_id: uuid
+    parent_name: string
+  },
+  [if ENTRY_PAIN]
+  area: {
+    latitude: float,
+    longitude: float
+  },
+  [endif]
+  log_time: datetime,
+  start_time: timestamp,
+  end_time: timestamp,
+  notes: string
+}
+
+@enduml

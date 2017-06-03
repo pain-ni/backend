@@ -1,0 +1,54 @@
+@startuml
+
+together {
+  class User {
+    duration: integer,
+    date_of_birth: datetime
+  }
+
+  class Condition <<Future>> {
+    name
+  }
+
+  together {
+    class PainEntry {
+      log_time: datetime,
+      start_time: datetime,
+      end_time: datetime
+      location: latlng [nullable],
+      notes: string
+    }
+
+    class PainType {
+    }
+
+    class PainArea {
+    }
+  }
+}
+
+class InterventionType {
+  name
+}
+
+class InterventionEntry {
+  log_time: datetime,
+  start_time: datetime,
+  end_time: datetime,
+  location: latlng [nullable],
+  notes: string
+}
+
+PainArea "1" -> "1" User : primary_pain_area
+PainType "1" -> "1" User : primary_pain_type
+PainEntry "*" -> "1" User : pain_entries
+PainEntry "*" -> "1" PainType : type
+PainEntry "*" -> "1" PainArea : area
+InterventionEntry -> InterventionType : subtype
+InterventionType -> InterventionType : parent
+
+PainArea "*" - "*" PainType : possible_types
+
+InterventionEntry -> User
+
+@enduml
